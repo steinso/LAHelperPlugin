@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="ntnu.stud.steinkso.learninganalytics.LAPreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.core.compilationParticipant">
+      <compilationParticipant
+            class="ntnu.stud.steinkso.learninganalytics.CompilationParticipant1"
+            id="ntnu.stud.steinkso.learninganalytics.compilationParticipant1">
+      </compilationParticipant>
+   </extension>
+
+</plugin>

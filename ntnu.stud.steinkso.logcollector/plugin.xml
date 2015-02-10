@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="ntnu.stud.steinkso.logcollector.preferences.LoggerPreferencePage"
+            id="ntnu.stud.steinkso.logcollector.preferencepage"
+            name="Learning Analytics Helper">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="ntnu.stud.steinkso.logcollector.preferences.LoggerPreferenceInitializer">
+      </initializer>
+   </extension>
+
+</plugin>
