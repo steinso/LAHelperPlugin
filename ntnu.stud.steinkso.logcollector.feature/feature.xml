@@ -23,4 +23,32 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="ntnu.stud.steinkso.learninganalytics"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ntnu.stud.steinkso.learninganalytics.filelogger"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ntnu.stud.steinkso.learninganalytics.markerlogger"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ntnu.stud.steinkso.learninganalytics.testlogger"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>

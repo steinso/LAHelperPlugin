@@ -6,5 +6,11 @@
    <feature url="features/ntnu.stud.steinkso.logcollector.feature_0.1.0.201502051345.jar" id="ntnu.stud.steinkso.logcollector.feature" version="0.1.0.201502051345" patch="true">
       <category name="ntnu.stud.steinkso.logcollector.feature"/>
    </feature>
+   <feature url="features/ntnu.stud.steinkso.logcollector.feature_0.1.0.201503031308.jar" id="ntnu.stud.steinkso.logcollector.feature" version="0.1.0.201503031308" patch="true">
+      <category name="ntnu.stud.steinkso.logcollector.feature"/>
+   </feature>
+   <feature url="features/ntnu.stud.steinkso.logcollector.feature_0.1.0.201503151326.jar" id="ntnu.stud.steinkso.logcollector.feature" version="0.1.0.201503151326" patch="true">
+      <category name="ntnu.stud.steinkso.logcollector.feature"/>
+   </feature>
    <category-def name="ntnu.stud.steinkso.logcollector.feature" label="Learning Analytics Helper"/>
 </site>
