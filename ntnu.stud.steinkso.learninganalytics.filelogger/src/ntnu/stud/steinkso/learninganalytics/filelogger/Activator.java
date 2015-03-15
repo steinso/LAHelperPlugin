@@ -10,18 +10,13 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
 
-	// The plug-in ID
 	public static final String PLUGIN_ID = "ntnu.stud.steinkso.learninganalytics.filelogger"; //$NON-NLS-1$
 
-	// The shared instance
 	private static Activator plugin;
 	private Reporter reporter;
 
 	private IWorkspace workspace;
 	
-	/**
-	 * The constructor
-	 */
 	public Activator() {
 	}
 
@@ -32,7 +27,7 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		System.out.println("File Changed Listener Plugin STARTED!");
+		System.out.println("File Changed Listener Plugin started");
 
 		reporter = new Reporter();
 		workspace = ResourcesPlugin.getWorkspace();
@@ -57,5 +52,4 @@ public class Activator extends AbstractUIPlugin {
 	public static Activator getDefault() {
 		return plugin;
 	}
-
 }

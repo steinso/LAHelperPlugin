@@ -5,10 +5,6 @@ import java.util.ArrayList;
 import ntnu.stud.steinkso.logcollector.ErrorHandler;
 import ntnu.stud.steinkso.logcollector.LoggerPlugin;
 import ntnu.stud.steinkso.logcollector.internal.LoggerResource;
-import ntnu.stud.steinkso.logcollector.internal.ResourceHelper;
-
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceDelta;
 
 import com.google.gson.Gson;
 
@@ -16,18 +12,13 @@ public class ServerCommuncation {
 
 	public static void SendResources(ArrayList<LoggerResource> resources) {
 
-
-		// Create new thread for posting file to server
 		try {
-
             String body = new Gson().toJson(resources); 
 			HTTPHelper.post(LoggerPlugin.getDefault().createServerUrl("files"), body, null);
 
 		} catch (Exception e) {
-			ErrorHandler.logError("Could not convert resource to JSON", e);
-
+			ErrorHandler.logError("Could not convert resources to JSON, number: "+resources.size(), e);
 		}
-
 	}
 
 	public static void sendErrorLog(ErrorRepresentation error) {

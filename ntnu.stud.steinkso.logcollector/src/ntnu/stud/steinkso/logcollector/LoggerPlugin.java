@@ -53,29 +53,12 @@ public class LoggerPlugin extends AbstractUIPlugin {
 	 * other facilities provided by the save participant mechanism, read the API
 	 * Javadoc for ISaveParticipant, ISavedState, and ISaveContext.
 	 * 
-	 * 
-	 * 
-	 * //TODO
-	 * 
-	 * NOT RELEVANT ANYMORE: Depend on JUnitautomatically etc. listen for when
-	 * tests are run and send test results to server NOT RELEVANT ANYMORE:
-	 * Depend on Hallvards plugin, and listen for project start - start logging
-	 * 
-	 * Implement specific tests that find common errors with exercises, eg. if
-	 * 60% of students impement an error, make a test that can ind it and return
-	 * specific error message forventet verdi vs. feil verdi, hvor ofte skjer
-	 * det - etc. lag test for [ sjekke om feilen er beg[tt.
-	 * 
 	 */
 
-	// The plug-in ID
 	public static final String PLUGIN_ID = "ntnu.stud.steinkso.logcollector"; //$NON-NLS-1
 	private static LoggerPlugin plugin;
 
-	private boolean sendMarkers = false;
-
 	private static BundleContext context;
-	private IWorkspace workspace;
 	private LoggerPreferences preferences;
 
 	static BundleContext getContext() {
@@ -93,9 +76,8 @@ public class LoggerPlugin extends AbstractUIPlugin {
 		LoggerPlugin.context = bundleContext;
 		plugin = this;
 
-		System.out.println("Learning Analytics Logger started!");
-
 		preferences = new LoggerPreferences(getPreferenceStore());
+		System.out.println("Learning Analytics Logger started!");
 
 		createClientIdIfNotExistAndInitializePlugin();
 	}
@@ -113,7 +95,6 @@ public class LoggerPlugin extends AbstractUIPlugin {
 		String clientId = getPreferences().getClientId();
 
 		if (clientId.equals("")) {
-			// onResponse() runs when request is returned by server
 			ServerCommuncation.createUser(new HTTPListener() {
 				@Override
 				public void onResponse(String response) {
@@ -122,11 +103,9 @@ public class LoggerPlugin extends AbstractUIPlugin {
 
 				@Override
 				public void handleError(int statusCode) {
-					ErrorHandler
-							.logError("PLUGIN NOT INITIALIZED: Could not get client id from server:"
+					ErrorHandler.logError("PLUGIN NOT INITIALIZED: Could not get client id from server:"
 									+ statusCode);
 				}
-
 			});
 		} else {
 			System.out.println("UserID retrieved from preferences");
@@ -134,15 +113,14 @@ public class LoggerPlugin extends AbstractUIPlugin {
 		}
 	}
 
-	public void onGotClientId(String clientId) {
+	private void onGotClientId(String clientId) {
 
 		if (validateClientId(clientId)) {
 			preferences.setClientId(clientId);
 			System.out.println("Got userid from server:" + clientId);
 			initializePlugin();
 		} else {
-			ErrorHandler
-					.logError("PLUGIN NOT INITIALIZED: Could not validate client id from server:"
+			ErrorHandler.logError("PLUGIN NOT INITIALIZED: Could not validate client id from server:"
 							+ clientId);
 		}
 	}
@@ -178,14 +156,6 @@ public class LoggerPlugin extends AbstractUIPlugin {
 		return preferences;
 	}
 
-	public boolean isSendMarkers() {
-		return sendMarkers;
-	}
-
-	public void setSendMarkers(boolean sendMarkers) {
-		this.sendMarkers = sendMarkers;
-	}
-
 	public void stop(BundleContext bundleContext) throws Exception {
 		super.stop(bundleContext);
 		plugin = null;
@@ -209,25 +179,14 @@ public class LoggerPlugin extends AbstractUIPlugin {
 				preferences.setClientName(foldName);
 				ErrorHandler.logError("Could not contact server for name change:" + statusCode);
 			}
-
 		});
-	}
-
-	public void saveFileInPluginDir(String contents, String filename) {
-
-           String pluginDir = "learningAnalytics/";
-		   File file = this.getStateLocation().append(pluginDir+filename).toFile();
-
-		   FileUtils.saveFile(file,contents);
-			      // wait until lock is available or fail
-		
 	}
 	
 	public void logResources(ArrayList<LoggerResource> resourceList){
 
-
-		ServerCommuncation.SendResources(resourceList);
-		
+		if(preferences.getLoggingIsActive()){
+                ServerCommuncation.SendResources(resourceList);
+		}
 	}
 	
 	public String convertToJson(Object obj){

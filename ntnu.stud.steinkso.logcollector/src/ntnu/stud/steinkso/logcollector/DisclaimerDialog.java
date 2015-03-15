@@ -15,6 +15,11 @@ public class DisclaimerDialog {
 	private String dialogDisclaimerResponse;
 
 	public DisclaimerDialog() {
+
+		// First fetch latest disclaimers from server,
+		// if they are newer than last, prompt user to 
+		// agree again.
+
 		ServerCommuncation.getDialogDisclaimer(new HTTPListener() {
 			@Override
 			public void onResponse(String response) {
@@ -26,6 +31,7 @@ public class DisclaimerDialog {
 				ErrorHandler.logError("Could not get Dialog: " + statusCode);
 			}
 		});
+
 		ServerCommuncation.getPreferenceDisclaimer(new HTTPListener() {
 			@Override
 			public void onResponse(String response) {
@@ -81,6 +87,7 @@ public class DisclaimerDialog {
 
 		long unixTime = System.currentTimeMillis() / 1000L;
 		System.out.println("Setting received at unixtime: "+String.valueOf(unixTime));
+
 		preferences.setMessagesLastUpdateTimestamp(String.valueOf(unixTime));
 		preferences.setDisclaimerAnswered(false);
 		preferences.setLoggingIsActive(false);
@@ -140,6 +147,7 @@ public class DisclaimerDialog {
 		LoggerPreferences preferences = LoggerPlugin.getDefault()
 				.getPreferences();
 		preferences.setDisclaimerAnswered(true);
+
 		if (participating) {
 			preferences.setUserParticipating(true);
 			preferences.setLoggingIsActive(true);

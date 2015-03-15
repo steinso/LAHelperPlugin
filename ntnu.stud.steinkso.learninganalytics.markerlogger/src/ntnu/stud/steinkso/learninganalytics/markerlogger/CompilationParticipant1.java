@@ -15,9 +15,9 @@ import org.eclipse.jdt.core.compiler.CompilationParticipant;
 
 
 /**
- * This compilation participant runs when build has finished. It creates a
- * .markers.json file in the project directory where the markers of files are
- * stored in json format.
+ * This compilation participant runs when build has finished. 
+ * It then sends the current markers as a resource to learningAnalytics plugin for logging 
+ * as .markers.json
  * 
  * @author stan
  */
@@ -41,21 +41,19 @@ public class CompilationParticipant1 extends CompilationParticipant {
 			sendCurrentWorkspaceMarkers(project);
 
 		} catch (CoreException e) {
-			ErrorHandler.logError("Could not save marker file",e);
+			ErrorHandler.logError("Could not save marker file", e);
 			System.out.println("ERROR: Could not save marker file.");
 		}
 	}
 
-	private void sendCurrentWorkspaceMarkers(IJavaProject project)
-			throws CoreException {
+	private void sendCurrentWorkspaceMarkers(IJavaProject project) throws CoreException {
+
 		IResource resource = project.getResource();
-		String markersJson;
 		String markersFileName = LearningAnalyticsPlugin.getDefault().getPreferences().getMarkersFileName();
 
 		LoggerMarkerList markerList = createMarkerList(resource);
-		markersJson = convertMarkerListToJson(markerList);
+		String markersJson = convertMarkerListToJson(markerList);
 
-		//LoggerPlugin.getDefault().saveFileInPluginDir(markersJson,markersFileName);
 		LoggerResource loggerResource = new LoggerResource();
 		loggerResource.setFileContents(markersJson);
 		loggerResource.setName(markersFileName);
@@ -79,7 +77,6 @@ public class CompilationParticipant1 extends CompilationParticipant {
 		IMarker[] markers = resource.findMarkers(null, true, -1);
 		LoggerMarkerList markerList = new LoggerMarkerList(markers);
 		return markerList;
-		
 	}
 
 }

@@ -2,8 +2,6 @@ package ntnu.stud.steinkso.learninganalytics.filelogger;
 
 import java.util.ArrayList;
 
-import ntnu.stud.steinkso.learninganalytics.LAPreferences;
-import ntnu.stud.steinkso.learninganalytics.LearningAnalyticsPlugin;
 import ntnu.stud.steinkso.logcollector.LoggerPlugin;
 
 import org.eclipse.core.resources.IResource;
@@ -14,17 +12,12 @@ import org.eclipse.core.runtime.CoreException;
 public class ResourceDeltaVisitor implements IResourceDeltaVisitor {
 
 	private ArrayList<IResource> suitableResources;
-	private String markersFileName;
-	private String testFileName;
 	private ArrayList<IResourceDelta> deltas;
 
 	public ResourceDeltaVisitor() {
-		LAPreferences preferences = LearningAnalyticsPlugin.getDefault().getPreferences(); 
 
 		suitableResources = new ArrayList<IResource>();
-		deltas= new ArrayList<IResourceDelta>();
-		markersFileName = preferences.getMarkersFileName();
-		testFileName = preferences.getTestFileName();
+		deltas = new ArrayList<IResourceDelta>();
 	}
 
 	public ArrayList<IResource> getSuitableResources() {
@@ -51,10 +44,6 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor {
 		IResource resource = delta.getResource();
 		String filePath = resource.getFullPath().toString();
 
-		if (resource.getName() == markersFileName || resource.getName() == testFileName) {
-			return true;
-		}
-		
 		if(LoggerPlugin.getDefault().getPreferences().isValidResourcePath(filePath)){
 			return true;
 		}
@@ -71,11 +60,7 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor {
 			return true;
 		}
 
-		if (resource.getName() == markersFileName || resource.getName() == testFileName) {
-			return true;
-		}
-
-		if((resource.getType() & IResource.FOLDER) != 0|| (resource.getType() & IResource.PROJECT)!=0){
+		if((resource.getType() & IResource.FOLDER) != 0 || (resource.getType() & IResource.PROJECT) != 0){
 			return true;
 		}
 
@@ -86,16 +71,16 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor {
 
 		// Resource has changed content or moved/copied 
 		if ((delta.getKind() & IResourceDelta.CHANGED) != 0){ 
-            if ((delta.getFlags() & IResourceDelta.CONTENT) != 0 ||
-				 (delta.getFlags() & IResourceDelta.COPIED_FROM) !=0|| 
+            if ( (delta.getFlags() & IResourceDelta.CONTENT) != 0 ||
+				 (delta.getFlags() & IResourceDelta.COPIED_FROM) != 0 || 
 				 (delta.getFlags() & IResourceDelta.MOVED_FROM) !=0 ) {
-			return true;
+            	 return true;
             }
 		}
 		
 		//Resource is added or removed
-		if((delta.getKind() & IResourceDelta.ADDED) !=0 ||
-				 (delta.getKind() & IResourceDelta.REMOVED) !=0){
+		if( (delta.getKind() & IResourceDelta.ADDED) != 0 ||
+			(delta.getKind() & IResourceDelta.REMOVED) != 0){
 			return true;
 		}
 

@@ -3,6 +3,9 @@ package ntnu.stud.steinkso.learninganalytics.testlogger;
 public class LoggerTest {
 
 	private String className;
+	private String methodName;
+	private String result;
+
 	public String getMethodName() {
 		return methodName;
 	}
@@ -15,8 +18,6 @@ public class LoggerTest {
 	public void setResult(String result) {
 		this.result = result;
 	}
-	private String methodName;
-	private String result;
 	public String getClassName() {
 		return className;
 	}

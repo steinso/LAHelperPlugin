@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import ntnu.stud.steinkso.learninganalytics.LearningAnalyticsPlugin;
 import ntnu.stud.steinkso.logcollector.ErrorHandler;
-import ntnu.stud.steinkso.logcollector.LoggerPlugin;
 import ntnu.stud.steinkso.logcollector.internal.LoggerResource;
 
 import org.eclipse.core.resources.IResource;
@@ -26,19 +25,20 @@ public class Reporter implements IResourceChangeListener {
 
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
+
 		//Don't do anything if logging is inactive
 		LearningAnalyticsPlugin learningAnalytics = LearningAnalyticsPlugin.getDefault();
 
-			System.out.println("EVENT: resource changed, is logging active: "+learningAnalytics.getLoggingIsActive());
+		System.out.println("EVENT: resource changed, is logging active: "+learningAnalytics.getLoggingIsActive());
 		if(!learningAnalytics.getLoggingIsActive()){
-			System.out.println("EVENT: resource changed, but logging not active");
+			System.out.println("EVENT: resource changed, but logging not active ... returning");
 			return;
 		}
 
-		if (!isCorrectEvent(event))
+		if (!isCorrectEvent(event)){
 			return;
+		}
 
-		registerSendMarkers();
 		traverseChangedResources(event);
 	}
 
@@ -47,10 +47,6 @@ public class Reporter implements IResourceChangeListener {
 			return true;
 		}
 		return false;
-	}
-
-	private void registerSendMarkers() {
-		LoggerPlugin.getDefault().setSendMarkers(true);
 	}
 
 	private void traverseChangedResources(IResourceChangeEvent event) {

@@ -1,6 +1,7 @@
 package ntnu.stud.steinkso.learninganalytics;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import ntnu.stud.steinkso.logcollector.LoggerPlugin;
 import ntnu.stud.steinkso.logcollector.internal.LoggerResource;
@@ -13,21 +14,16 @@ import org.osgi.framework.BundleContext;
  */
 public class LearningAnalyticsPlugin extends AbstractUIPlugin {
 
-	// The plug-in ID
 	public static final String PLUGIN_ID = "ntnu.stud.steinkso.learninganalytics"; //$NON-NLS-1$
 
-	// The shared instance
 	private static LearningAnalyticsPlugin plugin;
 	private ArrayList<LoggerResource> stateResources = new ArrayList<LoggerResource>();
 
 	private LAPreferences preferences;
 	
-	/**
-	 * The constructor
-	 */
 	public LearningAnalyticsPlugin() {
-	}
 
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -42,6 +38,7 @@ public class LearningAnalyticsPlugin extends AbstractUIPlugin {
 	public LAPreferences getPreferences() {
 		return preferences;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
@@ -61,20 +58,45 @@ public class LearningAnalyticsPlugin extends AbstractUIPlugin {
 	}
 	
 	public void addResourcesToCurrentLogState(ArrayList<LoggerResource> loggerResources) {
+		//Remove current if already exist in the arrayList = overwritten
+		ArrayList<LoggerResource> toBeRemoved;
+		toBeRemoved = getDuplicateResourceStates(stateResources, loggerResources);
+
+		stateResources.removeAll(toBeRemoved);
 		stateResources.addAll(loggerResources);
-		//logCurrentState();
+	}
+	
+	private ArrayList<LoggerResource> getDuplicateResourceStates(ArrayList<LoggerResource> oldResources, 
+                                                                 ArrayList<LoggerResource> newResources){
+		Iterator<LoggerResource> iterator = newResources.iterator();
+		ArrayList<LoggerResource> toBeRemoved = new ArrayList<LoggerResource>();
+
+		while(iterator.hasNext()){
+            LoggerResource newResource = iterator.next();
+
+            Iterator<LoggerResource> currentIterator = oldResources.iterator();
+            while(currentIterator.hasNext()){
+            	LoggerResource resource = currentIterator.next();
+
+            	if(resource.getPath().equals(newResource.getPath()) && resource.getName().equals(newResource.getName())){
+            		toBeRemoved.add(resource);
+            	}
+            }
+		}
+		return toBeRemoved;
 	}
 	
 	public void logCurrentState(){
 		if(stateResources.size() > 0){
-			LoggerPlugin.getDefault().logResources(stateResources);
+			//Create new arrayList to prevent race conditions
+			ArrayList<LoggerResource> resources = new ArrayList<LoggerResource>(stateResources);
 			stateResources.clear();
+			LoggerPlugin.getDefault().logResources(resources);
 		}
 	}
 
-
 	public boolean getLoggingIsActive() {
-		return true;
+		return LoggerPlugin.getDefault().getPreferences().getLoggingIsActive();
 	}
 
 }

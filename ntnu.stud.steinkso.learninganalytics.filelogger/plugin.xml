@@ -8,7 +8,7 @@
    <extension
          point="org.eclipse.ui.startup">
       <startup
-            class="EarlyStartup">
+            class="ntnu.stud.steinkso.learninganalytics.filelogger.EarlyStartup">
       </startup>
    </extension>
 

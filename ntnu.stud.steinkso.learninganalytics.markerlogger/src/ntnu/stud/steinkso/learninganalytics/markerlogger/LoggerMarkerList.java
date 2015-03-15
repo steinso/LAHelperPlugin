@@ -18,13 +18,14 @@ import org.eclipse.core.runtime.CoreException;
 public class LoggerMarkerList {
 
 	// Filename -> list of markers
-	// where list of markers is a list of attributes
+	// where list of markers is a map of attributes
 	private HashMap<String,ArrayList<Map<String,Object>>> listOfMarkers;
 
 	public LoggerMarkerList(IMarker[] markers) throws CoreException {
+
 		listOfMarkers = new HashMap<String,ArrayList<Map<String,Object>>>();
 
-		for(int i=0; i < markers.length;i++){
+		for(int i = 0; i < markers.length; i++){
 			String filePath = markers[i].getResource().getFullPath().toString();
 
 			boolean isValidPath =LoggerPlugin.getDefault().isValidResourcePath(filePath);

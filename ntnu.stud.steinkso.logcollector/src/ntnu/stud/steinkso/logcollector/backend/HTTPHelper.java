@@ -1,8 +1,6 @@
 package ntnu.stud.steinkso.logcollector.backend;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
 
