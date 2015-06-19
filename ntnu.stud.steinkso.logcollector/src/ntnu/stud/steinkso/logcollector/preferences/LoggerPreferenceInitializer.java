@@ -20,9 +20,9 @@ public class LoggerPreferenceInitializer extends
         String backupPreferenceDisclaimer = backupDialogDisclaimer;
 		store.setDefault(LoggerPreferences.MARKERS_FILENAME,".markers.json");
         store.setDefault(LoggerPreferences.TEST_FILENAME,".tests.json");
-        //store.setDefault(LoggerPreferences.SERVER_URL,"http://vm-6126.idi.ntnu.no/learninganalytics/");
+        store.setDefault(LoggerPreferences.SERVER_URL,"http://vm-6126.idi.ntnu.no/learninganalytics/");
         //store.setDefault(LoggerPreferences.SERVER_URL,"http://errorlog.steinsorhus.com/");
-        store.setDefault(LoggerPreferences.SERVER_URL,"http://localhost:50807/");
+        //store.setDefault(LoggerPreferences.SERVER_URL,"http://localhost:50807/");
         store.setDefault(LoggerPreferences.CLIENT_ID_NAME,"");
         store.setDefault(LoggerPreferences.LOGGING_IS_ACTIVATED,LoggerPreferences.LOGGING_IS_DEACTIVATED);
         store.setDefault(LoggerPreferences.ROOT_LOGGING_DIRECTORY,"/");
